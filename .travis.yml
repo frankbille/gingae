@@ -17,4 +17,5 @@ install:
 - which goapp
 - goapp env
 script:
+- goapp get
 - goapp test -v ./...
