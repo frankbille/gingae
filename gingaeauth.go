@@ -1,3 +1,5 @@
+// Gin middleware, handling authentication against the Google App Engine users
+// service.
 package gingaeauth
 
 import (
@@ -6,6 +8,7 @@ import (
 	"appengine/user"
 )
 
+// Create App Engine authentication middleware.
 func GaeAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		gaectx := appengine.NewContext(c.Req)
