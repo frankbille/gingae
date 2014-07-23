@@ -33,8 +33,11 @@ func gaeContextFromProvider(gaeContextProvider gaeContextProvider) gin.HandlerFu
 // Set a variable on the Gin context, containing the GAE User.
 func GaeUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		gaeCtx := c.Get(Context).(appengine.Context)
-		gaeUser := user.Current(gaeCtx)
+		gaeCtx, err := c.Get(Context)
+		if err != nil {
+			panic("Must use the GaeContext middleware before the GaeUser")
+		}
+		gaeUser := user.Current(gaeCtx.(appengine.Context))
 		c.Set(User, gaeUser)
 	}
 }
@@ -42,8 +45,11 @@ func GaeUser() gin.HandlerFunc {
 // Set a variable on the Gin context, containing the GAE User, logged in using OAuth.
 func GaeUserOAuth(scope string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		gaeCtx := c.Get(Context).(appengine.Context)
-		gaeUser, err := user.CurrentOAuth(gaeCtx, scope)
+		gaeCtx, err := c.Get(Context)
+		if err != nil {
+			panic("Must use the GaeContext middleware before the GaeUserOAuth")
+		}
+		gaeUser, err := user.CurrentOAuth(gaeCtx.(appengine.Context), scope)
 		if err != nil {
 			c.Set(UserOAuthError, err)
 		} else {

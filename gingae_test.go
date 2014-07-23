@@ -22,7 +22,7 @@ func TestGaeContext(t *testing.T) {
 
 	handler(&ginCtx)
 
-	if ginCtx.Get(Context) == nil {
+	if _, err := ginCtx.Get(Context); err != nil {
 		t.Fail()
 	}
 }
@@ -39,7 +39,7 @@ func TestGaeUser(t *testing.T) {
 
 	GaeUser()(&ginCtx)
 
-	if ginCtx.Get(User) == nil {
+	if _, err := ginCtx.Get(User); err != nil {
 		t.Fail()
 	}
 }
@@ -56,7 +56,7 @@ func TestGaeUserOAuth(t *testing.T) {
 
 	GaeUserOAuth("")(&ginCtx)
 
-	if ginCtx.Get(User) == nil {
+	if _, err := ginCtx.Get(User); err != nil {
 		t.Fail()
 	}
 }
