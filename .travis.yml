@@ -8,13 +8,18 @@ before_install:
 - export GAE=$(pwd)
 - popd
 install:
-- cd $TRAVIS_BUILD_DIR
-- ls -la
 - echo $GAE
 - export GOHOME=$GAE
 - export PATH=$GAE:$PATH
 - which goapp
 - goapp env
+- mkdir -p $HOME/gopath/src/github.com/gin-gonic
+- cd $HOME/gopath/src/github.com/gin-gonic
+- git clone https://github.com/gin-gonic/gin.git
+- cd $HOME/gopath/src/github.com/gin-gonic/gin
+- git checkout app_engine
+- goapp install
+- cd $TRAVIS_BUILD_DIR
 script:
 - goapp get ./...
 - goapp test -v ./...
