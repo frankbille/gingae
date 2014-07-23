@@ -18,7 +18,8 @@ install:
 - git clone https://github.com/gin-gonic/gin.git
 - cd $HOME/gopath/src/github.com/gin-gonic/gin
 - git checkout app_engine
-- goapp install ./...
+- goapp get ./...
+- goapp install
 - cd $TRAVIS_BUILD_DIR
 script:
 - goapp get ./...
