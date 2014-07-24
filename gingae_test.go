@@ -4,6 +4,7 @@ import (
 	"appengine"
 	"appengine_internal"
 	pb "appengine_internal/user"
+	"errors"
 	"github.com/gin-gonic/gin"
 	. "github.com/smartystreets/goconvey/convey"
 	"log"
@@ -12,6 +13,7 @@ import (
 )
 
 type MockGaeContext struct {
+	FailOnCall bool
 }
 
 func (c *MockGaeContext) Debugf(format string, args ...interface{}) {
@@ -35,6 +37,10 @@ func (c *MockGaeContext) Criticalf(format string, args ...interface{}) {
 }
 
 func (c *MockGaeContext) Call(service, method string, in, out appengine_internal.ProtoMessage, opts *appengine_internal.CallOptions) error {
+	if c.FailOnCall {
+		return errors.New("Failing")
+	}
+
 	if service == "user" {
 		email := "test@example.com"
 		authDomain := "example.com"
@@ -137,6 +143,25 @@ func TestGaeUserOAuth(t *testing.T) {
 			So(getErr, ShouldBeNil)
 
 			So(user, ShouldNotBeNil)
+		})
+
+		Convey("If user lookup fails", func() {
+			gaeCtx = &MockGaeContext{
+				FailOnCall: true,
+			}
+
+			ginCtx = gin.Context{}
+			ginCtx.Set(Context, gaeCtx)
+
+			GaeUserOAuth("")(&ginCtx)
+
+			Convey("User should not be set on Gin Context, but User error should", func() {
+				user, getErr := ginCtx.Get(User)
+
+				So(getErr, ShouldNotBeNil)
+
+				So(user, ShouldBeNil)
+			})
 		})
 	})
 }
