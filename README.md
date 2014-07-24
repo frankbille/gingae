@@ -1,4 +1,4 @@
-# Gin App Engine Middleware [![Build Status](https://travis-ci.org/frankbille/gingae.svg?branch=master)](https://travis-ci.org/frankbille/gingae) [![GoDoc](https://godoc.org/github.com/frankbille/gingae?status.png)](https://godoc.org/github.com/frankbille/gingae)
+# Gin GAE Middleware [![Build Status](https://travis-ci.org/frankbille/gingae.svg?branch=master)](https://travis-ci.org/frankbille/gingae) [![GoDoc](https://godoc.org/github.com/frankbille/gingae?status.png)](https://godoc.org/github.com/frankbille/gingae) [![Coverage Status](https://img.shields.io/coveralls/frankbille/gingae.svg)](https://coveralls.io/r/frankbille/gingae?branch=master)
 
 Gin middlewares providing Google App Engine integrations.
 
