@@ -90,15 +90,24 @@ func TestGaeUser(t *testing.T) {
 		gaeCtx := &MockGaeContext{}
 
 		ginCtx := gin.Context{}
-		ginCtx.Set(Context, gaeCtx)
 
-		GaeUser()(&ginCtx)
+		Convey("Panic if GaeContext middleware isn't added before.", func() {
+			userFunc := func() {
+				GaeUser()(&ginCtx)
+			}
+
+			So(userFunc, ShouldPanic)
+		})
 
 		Convey("The GAE User should be set on the Gin Context", func() {
+			ginCtx.Set(Context, gaeCtx)
+
+			GaeUser()(&ginCtx)
+
 			user, getErr := ginCtx.Get(User)
 
 			So(getErr, ShouldBeNil)
-			
+
 			So(user, ShouldNotBeNil)
 		})
 	})
@@ -109,15 +118,24 @@ func TestGaeUserOAuth(t *testing.T) {
 		gaeCtx := &MockGaeContext{}
 
 		ginCtx := gin.Context{}
-		ginCtx.Set(Context, gaeCtx)
 
-		GaeUserOAuth("")(&ginCtx)
+		Convey("Panic if GaeContext middleware isn't added before.", func() {
+			userFunc := func() {
+				GaeUserOAuth("")(&ginCtx)
+			}
+
+			So(userFunc, ShouldPanic)
+		})
 
 		Convey("The GAE User should be set on the Gin Context", func() {
+			ginCtx.Set(Context, gaeCtx)
+
+			GaeUserOAuth("")(&ginCtx)
+
 			user, getErr := ginCtx.Get(User)
 
 			So(getErr, ShouldBeNil)
-			
+
 			So(user, ShouldNotBeNil)
 		})
 	})
