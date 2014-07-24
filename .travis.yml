@@ -21,6 +21,14 @@ install:
 - goapp get ./...
 - goapp install
 - cd $TRAVIS_BUILD_DIR
+- goapp get -t github.com/smartystreets/goconvey
+- goapp get github.com/axw/gocov/gocov
+- goapp get code.google.com/p/go.tools/cmd/cover
+- goapp get github.com/mattn/goveralls
 script:
 - goapp get ./...
-- goapp test -v ./...
+- goapp test -v -covermode=count -coverprofile=profile.cov ./...
+- $HOME/gopath/bin/goveralls -repotoken $COVERALLS_TOKEN -coverprofile=profile.cov
+env:
+  global:
+    secure: G8J/VkWjqk1LFJzgfOgIuEAcLztNL4f8W8m3V3oX4AD7td/RhjbRYGyNDPAiQcVDkPOr6+RUIi19el+QlGDv1zgUqA2Lb8YJTNYuIzzGr5QOuu9FWyXPY7AlUsnIUh46JIT6mJvuqWWzUoF/9d/PFGCljhfjtwZ1YCxK/1OrgAQ=
