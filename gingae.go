@@ -19,7 +19,7 @@ type gaeContextProvider func(c *gin.Context) appengine.Context
 // Set a variable on the Gin context, containing the GAE Context.
 func GaeContext() gin.HandlerFunc {
 	return gaeContextFromProvider(func(c *gin.Context) appengine.Context {
-		return appengine.NewContext(c.Req)
+		return appengine.NewContext(c.Request)
 	})
 }
 
