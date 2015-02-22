@@ -23,7 +23,7 @@ install:
 - cd $TRAVIS_BUILD_DIR
 - goapp get -t github.com/smartystreets/goconvey
 - goapp get github.com/axw/gocov/gocov
-- goapp get code.google.com/p/go.tools/cmd/cover
+- goapp get golang.org/x/tools/cmd/cover
 - goapp get github.com/mattn/goveralls
 script:
 - goapp get ./...
